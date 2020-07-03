@@ -1,0 +1,73 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: ed1ef213505c345bc39f48770018a3c2cb33a90dc03c6553965b320d12307c6f
+
+name:           haskell-async
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/dabliuw22/haskell-async#readme>
+homepage:       https://github.com/dabliuw22/haskell-async#readme
+bug-reports:    https://github.com/dabliuw22/haskell-async/issues
+author:         Will Leyton
+maintainer:     wleylop22@gmail.com
+copyright:      2020 Will Leyton
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/dabliuw22/haskell-async
+
+library
+  exposed-modules:
+    Parallel.Sum
+    Parallel.SumIO
+  other-modules:
+      Paths_haskell_async
+  hs-source-dirs:
+      src
+  build-depends:
+      async
+    , base >=4.7 && <5
+    , parallel
+    , monad-par
+    , parallel-io
+  default-language: Haskell2010
+
+executable haskell-async-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_haskell_async
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      async
+    , base >=4.7 && <5
+    , haskell-async
+    , parallel
+    , parallel-io
+  default-language: Haskell2010
+
+test-suite haskell-async-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_haskell_async
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      async
+    , base >=4.7 && <5
+    , haskell-async
+    , parallel
+    , parallel-io
+  default-language: Haskell2010
