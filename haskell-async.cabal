@@ -27,6 +27,8 @@ source-repository head
 
 library
   exposed-modules:
+    Async.AsyncMain
+    Async.Task
     Concurrent.ConcurrentMain
     Concurrent.Op
     Parallel.Sum
