@@ -7,5 +7,5 @@ import Parallel.ParallelMain
 
 main :: IO ()
 --main = parallel
---main = concurrent
-main = async
+main = concurrent
+--main = async

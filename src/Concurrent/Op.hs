@@ -43,6 +43,9 @@ concurrentTaskAsync :: IO String
 concurrentTaskAsync = do
   (h, s, w) <- runConcurrently $ (,,)
     <$> Concurrently (run "Hello")
-    <*> Concurrently (runError " ")
+    <*> Concurrently (runError " " `catch` asyncTaskHandler)
     <*> Concurrently (run "World")
   return (h ++ s ++ w)
+  
+asyncTaskHandler :: AsyncTaskException -> IO String
+asyncTaskHandler (AsyncTaskException m) = pure (show m)
