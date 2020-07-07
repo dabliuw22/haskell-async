@@ -38,7 +38,7 @@ runError s = do threadDelay 100 >>= \ x -> throwIO (AsyncTaskException "Boom..."
 data AsyncTaskException = AsyncTaskException String deriving Show
 
 instance Exception AsyncTaskException
-
+{--
 concurrentTaskAsync :: IO String
 concurrentTaskAsync = do
   (h, s, w) <- runConcurrently $ (,,)
@@ -46,6 +46,14 @@ concurrentTaskAsync = do
     <*> Concurrently (runError " " `catch` asyncTaskHandler)
     <*> Concurrently (run "World")
   return (h ++ s ++ w)
+-}
+concurrentTaskAsync :: IO String
+concurrentTaskAsync = do
+  (h, s, w) <- runConcurrently $ (,,)
+    <$> Concurrently (run "Hello")
+    <*> Concurrently (runError " ")
+    <*> Concurrently (run "World")
+  return (h ++ s ++ w) `catch` asyncTaskHandler
   
 asyncTaskHandler :: AsyncTaskException -> IO String
 asyncTaskHandler (AsyncTaskException m) = pure (show m)
