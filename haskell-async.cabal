@@ -34,6 +34,8 @@ library
     Parallel.Sum
     Parallel.SumIO
     Parallel.ParallelMain
+    Channel.Program
+    Channel.ChannelMain
   other-modules:
       Paths_haskell_async
   hs-source-dirs:
