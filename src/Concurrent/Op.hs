@@ -19,7 +19,7 @@ waitTask (AsyncTask a) = do
   var <- readMVar a
   case var of
     Right v -> return v
-    Left e  -> throwIO e
+    Left e -> throwIO e
 
 newConcurrentTask :: IO String
 newConcurrentTask = do
@@ -30,14 +30,15 @@ newConcurrentTask = do
   return (var1 ++ " " ++ var2)
 
 run :: String -> IO String
-run s = do threadDelay 100 >>= \ x -> return s
+run s = do threadDelay 100 >>= \x -> return s
 
 runError :: String -> IO String
-runError s = do threadDelay 100 >>= \ x -> throwIO (AsyncTaskException "Boom...")
+runError s = do threadDelay 100 >>= \x -> throwIO (AsyncTaskException "Boom...")
 
-data AsyncTaskException = AsyncTaskException String deriving Show
+data AsyncTaskException = AsyncTaskException String deriving (Show)
 
 instance Exception AsyncTaskException
+
 {--
 concurrentTaskAsync :: IO String
 concurrentTaskAsync = do
@@ -49,11 +50,13 @@ concurrentTaskAsync = do
 -}
 concurrentTaskAsync :: IO String
 concurrentTaskAsync = do
-  (h, s, w) <- runConcurrently $ (,,)
-    <$> Concurrently (run "Hello")
-    <*> Concurrently (runError " ")
-    <*> Concurrently (run "World")
+  (h, s, w) <-
+    runConcurrently $
+      (,,)
+        <$> Concurrently (run "Hello")
+        <*> Concurrently (runError " ")
+        <*> Concurrently (run "World")
   return (h ++ s ++ w) `catch` asyncTaskHandler
-  
+
 asyncTaskHandler :: AsyncTaskException -> IO String
 asyncTaskHandler (AsyncTaskException m) = pure (show m)
