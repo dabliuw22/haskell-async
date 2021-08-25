@@ -1,7 +1,7 @@
 module Parallel.Sum where
 
-import Control.Parallel.Strategies
 import Control.Monad.Par
+import Control.Parallel.Strategies
 
 parSum :: [Int] -> Int
 parSum list = foldr (+) 0 list
@@ -16,11 +16,11 @@ execEval = runEval $ do
 
 execEvalIO :: IO Int
 execEvalIO = runEvalIO $ do
-    s1 <- rpar (parSum [1, 2, 3])
-    s2 <- rpar (parSum [4, 5, 6])
-    rseq s1
-    rseq s2
-    return (s1 + s2)
+  s1 <- rpar (parSum [1, 2, 3])
+  s2 <- rpar (parSum [4, 5, 6])
+  rseq s1
+  rseq s2
+  return (s1 + s2)
 
 execPar :: Int
 execPar = runPar $ do
